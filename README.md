@@ -16,40 +16,102 @@
 
 ## Установка проекта на локальный компьютер.
 
- - Клонируйте репозиторий: `git clone <адрес вашего репозитория>`.
- - Перейдите в директорию с клонированным репозиторием: `cd <название репозитория>`.
- - Установите виртуальное окружение: `python3 -m venv venv`.
- - Установите зависимости находясь в директории с текстовым файлом: `pip install -r requirements.txt`.
+ - Клонируйте репозиторий
+   ```
+   git clone <адрес вашего репозитория>
+   ```
+ - Перейдите в директорию с клонированным репозиторием
+   ```
+   cd <название репозитория>
+   ```
+ - Установите виртуальное окружение
+   ```
+   python3 -m venv venv
+   ```
+ - Установите зависимости находясь в директории с текстовым файлом
+   ```
+   pip install -r requirements.txt
+   ```
 
 ## Подключение сервера к аккаунту на GitHub
 
-- Установите Git на сервер: `sudo apt install git`.
-- Находясь на сервере, сгенерируйте пару SSH-ключей командой: `ssh-keygen`
-- Сохраните открытый ключ в вашем аккаунте на GitHub: `cat .ssh/id_rsa.pub`.
+- Установите Git на сервер:
+  ```
+  sudo apt install git
+  ```
+- Находясь на сервере, сгенерируйте пару SSH-ключей командой
+  ```
+  ssh-keygen
+  ```
+- Сохраните открытый ключ в вашем аккаунте на GitHub:
+  ```
+  cat .ssh/id_rsa.pub
+  ```
 - Скопируйте ключ от символов ssh-rsa и добавьте его к вашему аккаунту на GitHub.
-- Клонируйте проект с GitHub на сервер: `git clone git@github.com:Ваш_аккаунт/<Имя проекта>.git`
+- Клонируйте проект с GitHub на сервер
+  ```
+  git clone git@github.com:Ваш_аккаунт/<Имя проекта>.git
+  ```
 
 ## Запуск backend-части проекта на сервере.
 
-- Установите пакетный менеджер и утилиту для создания виртуального окружения: `sudo apt install python3-pip python3-venv -y`.
-- Находясь в директории с проектом, создайте и активируйте виртуальное окружение `python3 -m venv venv`  `source venv/bin/activate` .
-- Установить зависимости находясь в директории с файлом .txt: `pip install -r requirements.txt`.
-- Выполните все миграции: `python manage.py migrate`.
-- Создайте суперпользователя: `python manage.py createsuperuser`.
-- Отредактируйте файл settings.py: ALLOWED_HOSTS = ['<внешний адрес вашего сервера>', '127.0.0.1', 'localhost']
+- Установите пакетный менеджер и утилиту для создания виртуального окружения
+  ```
+  sudo apt install python3-pip python3-venv -y
+  ```
+- Находясь в директории с проектом, создайте и активируйте виртуальное окружение
+  ```
+  python3 -m venv venv
+  ```
+  ```
+  source venv/bin/activate
+  ```
+- Установить зависимости находясь в директории с файлом .txt
+  ```
+  pip install -r requirements.txt
+  ```
+- Выполните все миграции
+  ```
+  python manage.py migrate
+  ```
+- Создайте суперпользователя
+  ```
+  python manage.py createsuperuser
+  ```
+- Отредактируйте файл settings.py
+  ```
+  ALLOWED_HOSTS = ['<внешний адрес вашего сервера>', '127.0.0.1', 'localhost']
+  ```
 
 ## Запуск frontend-части проекта на сервере.
 
 - Установите на сервер `Node.js` следующим образом:
-`curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\`
-`sudo apt-get install -y nodejs`
-- Установите зависимости frontend приложения выполнив команду: `npm i` из директории `<ваш проект>/frontend/`.
+```
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - &&\
+```
+```
+sudo apt-get install -y nodejs
+```
+- Установите зависимости frontend приложения выполнив команду 
+  ```
+  npm i
+  ```
+  из директории <ваш_проект>/frontend
 
 ## Установка и запуск Gunicorn
 
-- При активированном виртуальном окружении установите пакет gunicorn: `pip install gunicorn==20.1.0`.
-- Откройте файл _settings.py_ проекта и установите для константы `DEBUG` значение `False` `DEBUG = False`
-- В директории _/etc/systemd/system/_ создайте файл _gunicorn.service_: `sudo nano /etc/systemd/system/gunicorn.service`
+- При активированном виртуальном окружении установите пакет gunicorn
+  ```
+  pip install gunicorn==20.1.0
+  ```
+- Откройте файл _settings.py_ проекта и установите для константы `DEBUG` значение `False`
+```
+`DEBUG = False`
+```
+- В директории _/etc/systemd/system/_ создайте файл _gunicorn.service_
+  ```
+  sudo nano /etc/systemd/system/gunicorn.service
+  ```
 - Внести в файл следующие изменения:
 
       [Unit]
@@ -72,7 +134,11 @@
 
 ## Сбор статики для frontend приложения.
 
-- Перейдите в директорию _/<имя_проекта>/frontend/_  и выполните команду `npm run build`.
+- Перейдите в директорию _/<имя_проекта>/frontend/_  и выполните команду
+  ```
+  npm run build
+  ```
+  
 - В системную директорию сервера _/var/www/_ скопируйте содержимое папки _/frontend/build/_.
 
 ## Сбор статики для backend приложения.
@@ -82,16 +148,35 @@
       STATIC_URL = 'static_backend'
 	  STATIC_ROOT = BASE_DIR / 'static_backend'
 
-- Активируйте виртуальное окружение, перейти в директорию с файлом _manage.py_ и выполните команду `python manage.py collectstatic` 
+- Активируйте виртуальное окружение, перейти в директорию с файлом _manage.py_ и выполните команду
+  ```
+  python manage.py collectstatic
+  ``` 
 - Скопировать директорию _static_backend/_ в директорию _/var/www/<имя_проекта>/_
 
 
 ## Установка и настройка Nginx
 
-- На сервере из любой директории выполнить команду: `sudo apt install nginx -y`.
-- Ограничьте порты выполнив по очереди команды: `sudo ufw allow 'Nginx Full'`  `sudo ufw allow OpenSSH`.
-- Включить файервол `sudo ufw enable`.
-- Отредактируйте файл конфигурации веб-сервера `sudo nano /etc/nginx/sites-enabled/default` следующим образом:
+- На сервере из любой директории выполнить команду
+  ```
+  sudo apt install nginx -y
+  ```
+- Ограничьте порты выполнив по очереди команды
+  ```
+  sudo ufw allow 'Nginx Full
+  ```
+  ```
+  sudo ufw allow OpenSSH
+  ```
+- Включить файервол
+  ```
+  sudo ufw enable
+  ```
+- Отредактируйте файл конфигурации веб-сервера
+  ```
+  sudo nano /etc/nginx/sites-enabled/default
+  ```
+  следующим образом:
 
       server {
     
@@ -112,7 +197,13 @@
 	            try_files $uri /index.html;
 	        }
       }
-- Сохраните изменения и перезагрузите конфигурацию веб-сервера: `sudo nginx -t` `sudo systemctl reload nginx`.
+- Сохраните изменения и перезагрузите конфигурацию веб-сервера
+  ```
+  sudo nginx -t
+  ```
+  ```
+  sudo systemctl reload nginx
+  ```
 
 ## Добавление доменного имени.
 
@@ -120,8 +211,14 @@
 
       ALLOWED_HOSTS = ['ip_адрес_вашего_сервера', '127.0.0.1', 'localhost', 'ваш-домен']
   
-- Сохраните изменения и перезапустите gunicorn `sudo systemctl restart gunicorn`.
-- Внесите изменения в конфигурацию Nginx: `sudo nano /etc/nginx/sites-enabled/default`.
+- Сохраните изменения и перезапустите gunicorn
+  ```
+  sudo systemctl restart gunicorn
+  ```
+- Внесите изменения в конфигурацию Nginx
+  ```
+  sudo nano /etc/nginx/sites-enabled/default
+  ```
 - Добавьте в строку `server_name` доменное имя:
 
 		server {
@@ -130,22 +227,46 @@
 		...
 		}
 
-- Проверьте конфигурацию `sudo nginx -t` и перезагрузите её командой `sudo systemctl reload nginx`.
+- Проверьте конфигурацию
+  ```
+  sudo nginx -t
+  ```
+  и перезагрузите её командой
+  ```
+  sudo systemctl reload nginx
+  ```
 
  ## Получение и настройка SSL-сертификата
  
- - Зайдите на сервер и последовательно выполните команды:
-
-	    sudo apt install snapd
-	    sudo snap install core; sudo snap refresh core
-	    sudo snap install --classic certbot
-	    sudo ln -s /snap/bin/certbot /usr/bin/certbot
+ - Зайдите на сервер и последовательно выполните команды
+  ```
+  sudo apt install snapd
+  ```
+  ```
+  sudo snap install core
+  ```
+  ```
+  sudo snap refresh core
+  ```
+  ```
+  sudo snap install --classic certbot
+  ```
+  ```
+  sudo ln -s /snap/bin/certbot /usr/bin/certbot
+  ```
+	    
+	   
+	  
    
 - Запустите certbot и получить SSL-сертификат:
+  ```
+  sudo certbot --nginx
+  ```
 
-		sudo certbot --nginx
-
-- Перезагрузите конфигурацию Nginx `sudo systemctl reload nginx`.
+- Перезагрузите конфигурацию Nginx
+  ```
+  sudo systemctl reload nginx
+  ```
 
 ## Автор
 Евгений Шульман - [GitHub](https://github.com/Jjonnie)

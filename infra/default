@@ -1,0 +1,71 @@
+ server {
+    server_name jtaski.hopto.org;
+
+    location ~ ^/(api|admin)/ {
+        proxy_pass http://127.0.0.1:8000;
+    }
+
+    location / {
+        root   /var/www/taski;
+        index  index.html index.htm;
+        try_files $uri /index.html;
+    }
+
+
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/jtaski.hopto.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/jtaski.hopto.org/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+}
+ server {
+    if ($host = jtaski.hopto.org) {
+        return 301 https://$host$request_uri;
+    } 
+
+
+
+    listen 80;
+    server_name jtaski.hopto.org;
+    return 404;
+
+
+}
+ server {
+    server_name jonniegray.duckdns.org;
+     
+    location ~ ^/(api|admin)/ {
+        client_max_body_size 20M;
+        proxy_pass http://127.0.0.1:8080;
+    }
+
+    location / {
+        root /var/www/kittygram;
+        index index.html index.htm;
+        try_files $uri /index.html;
+    }
+    location /media/ {
+        alias /var/www/kittygram/media/;
+    }
+
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/jonniegray.duckdns.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/jonniegray.duckdns.org/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+}
+
+ server {
+    if ($host = jonniegray.duckdns.org) {
+        return 301 https://$host$request_uri;
+    } 
+
+
+    listen 80;
+    server_name jonniegray.duckdns.org;
+    return 404;
+
+
+}

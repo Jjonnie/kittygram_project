@@ -1,0 +1,5 @@
+IP: 51.250.100.182;
+name_taski: https://jtaski.hopto.org;
+name_kittygram: https://jonniegray.duckdns.org;
+login: jonnie;
+password: 14081408;
